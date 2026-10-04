@@ -47,7 +47,11 @@ def add_to_log(entry, log=None):
         >>> add_to_log('y', ['x'])
         ['x', 'y']
     """
-    raise NotImplementedError
+
+    if log is None:
+        log = []
+    log.append(entry)
+    return log
 
 
 # ---------------------------------------------------------------------------
@@ -66,7 +70,7 @@ def exact_sum(values):
         >>> exact_sum(['0.1', '0.2'])
         Fraction(3, 10)
     """
-    raise NotImplementedError
+    return sum(map(Fraction, values))
 
 
 # ---------------------------------------------------------------------------
@@ -90,7 +94,9 @@ def round_money(amount, places=2):
         >>> round_money('19.995', 2)
         Decimal('20.00')
     """
-    raise NotImplementedError
+
+    number = Decimal(str(amount))
+    return number.quantize(Decimal(f"0.{'0'*places}"), rounding=ROUND_HALF_UP) 
 
 
 # ---------------------------------------------------------------------------
@@ -120,7 +126,8 @@ def active_flags(mask, names):
     бита справа). Им соответствуют names[1] = 'write' и
     names[3] = 'delete'.
     """
-    raise NotImplementedError
+
+    return [names[i] for i in range(len(names)) if 2**i & mask]
 
 
 # ---------------------------------------------------------------------------
@@ -149,7 +156,8 @@ def independent_copy(matrix):
         >>> cp
         [[1, [2, 3, 99]], [4, 5]]
     """
-    raise NotImplementedError
+
+    return copy.deepcopy(matrix)
 
 
 # ---------------------------------------------------------------------------
@@ -166,7 +174,7 @@ def complex_magnitudes(values):
         >>> complex_magnitudes([3 + 4j, 1 + 1j, 0j])
         [5.0, 1.41, 0.0]
     """
-    raise NotImplementedError
+    return list(map(lambda x: round(abs(x), 2), values))
 
 
 # ---------------------------------------------------------------------------
@@ -187,7 +195,8 @@ def count_passing(scores, threshold):
         >>> count_passing([10, 20, 30], 100)
         0
     """
-    raise NotImplementedError
+
+    return sum([s >= threshold for s in scores])
 
 
 # ---------------------------------------------------------------------------
@@ -206,7 +215,8 @@ def to_all_bases(n):
         >>> to_all_bases(-10)
         ('-0b1010', '-0xa', '-0o12')
     """
-    raise NotImplementedError
+
+    return bin(n), hex(n), oct(n) 
 
 
 # ---------------------------------------------------------------------------
@@ -236,7 +246,8 @@ def floor_and_truncated_division(a, b):
         >>> floor_and_truncated_division(-7, -2)
         (3, 3)
     """
-    raise NotImplementedError
+
+    return a // b, int(a / b) 
 
 
 # ---------------------------------------------------------------------------
@@ -267,4 +278,5 @@ def filter_out_none(values):
         >>> weird in result
         True
     """
-    raise NotImplementedError
+
+    return [v for v in values if v is not None]
